@@ -411,6 +411,14 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
 
 - (void)doEntitlementsEdit
 {
+    if ([entitlementsResult containsString:@"SecPolicySetValue"])
+    {
+        NSRange newlineRange = [entitlementsResult rangeOfString:@"\n"];
+        if(newlineRange.location != NSNotFound) {
+            entitlementsResult = [entitlementsResult substringFromIndex:newlineRange.location];
+        }
+    }
+    
     NSDictionary* entitlements = entitlementsResult.propertyList;
     entitlements = entitlements[@"Entitlements"];
     NSString* filePath = [workingPath stringByAppendingPathComponent:@"entitlements.plist"];
